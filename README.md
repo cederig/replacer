@@ -91,4 +91,15 @@ Ensuite, vous pouvez compiler le projet en spécifiant la cible:
 cargo build --release --target x86_64-pc-windows-gnu
 ```
 
-L'exécutable Windows se trouvera dans `target/x86_64-pc-windows-gnu/release/replacer.exe`.
+L'exécutable se trouvera dans `target/x86_64-pc-windows-gnu/release/replacer.exe`.
+
+## Tests
+
+Ce projet inclut des tests unitaires pour garantir la fiabilité de la logique de remplacement. Pour exécuter ces tests, utilisez la commande suivante à la racine du projet :
+
+```bash
+cargo test
+```
+
+Cette commande compile le programme en mode test et exécute toutes les fonctions de test.
+

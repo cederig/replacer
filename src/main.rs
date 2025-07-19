@@ -32,6 +32,14 @@ struct Args {
     encoding: Option<String>,
 }
 
+// This function contains the core replacement logic and is now testable.
+fn perform_replacement(content: &str, old: &str, new: &str) -> (String, usize) {
+    let occurrences = content.matches(old).count();
+    let replaced_contents = content.replace(old, new);
+    (replaced_contents, occurrences)
+}
+
+
 fn main() -> io::Result<()> {
     let args = Args::parse();
 
@@ -72,8 +80,7 @@ fn main() -> io::Result<()> {
 
     let contents = cow.into_owned();
 
-    let occurrences = contents.matches(&args.old).count();
-    let replaced_contents = contents.replace(&args.old, &args.new);
+    let (replaced_contents, occurrences) = perform_replacement(&contents, &args.old, &args.new);
 
     let output_path = if let Some(out_file) = &args.output {
         out_file
@@ -89,11 +96,67 @@ fn main() -> io::Result<()> {
     println!("Successfully replaced all occurrences of '{}' with '{}' in '{}'.", args.old, args.new, args.file);
 
     if args.stat {
-        println!("\n--- Statistics ---");
+        println!("
+--- Statistics ---");
         println!("Replacements made: {}", occurrences);
         println!("Time taken: {:.2?} ", elapsed_time);
         println!("------------------");
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_simple_replacement() {
+        let content = "Hello world, world!";
+        let old = "world";
+        let new = "Rust";
+        let (replaced_content, count) = perform_replacement(content, old, new);
+        assert_eq!(replaced_content, "Hello Rust, Rust!");
+        assert_eq!(count, 2);
+    }
+
+    #[test]
+    fn test_no_match() {
+        let content = "Hello world!";
+        let old = "galaxy";
+        let new = "Rust";
+        let (replaced_content, count) = perform_replacement(content, old, new);
+        assert_eq!(replaced_content, "Hello world!");
+        assert_eq!(count, 0);
+    }
+
+    #[test]
+    fn test_case_sensitive() {
+        let content = "Hello World!";
+        let old = "world";
+        let new = "Rust";
+        let (replaced_content, count) = perform_replacement(content, old, new);
+        assert_eq!(replaced_content, "Hello World!");
+        assert_eq!(count, 0);
+    }
+
+    #[test]
+    fn test_empty_content() {
+        let content = "";
+        let old = "a";
+        let new = "b";
+        let (replaced_content, count) = perform_replacement(content, old, new);
+        assert_eq!(replaced_content, "");
+        assert_eq!(count, 0);
+    }
+
+    #[test]
+    fn test_empty_new_string() {
+        let content = "Hello world!";
+        let old = "world";
+        let new = "";
+        let (replaced_content, count) = perform_replacement(content, old, new);
+        assert_eq!(replaced_content, "Hello !");
+        assert_eq!(count, 1);
+    }
 }
