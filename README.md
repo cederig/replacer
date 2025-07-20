@@ -32,6 +32,7 @@ Exemple d'utilisation du binaire compilé (depuis le répertoire racine du proje
 Ce projet utilise les dépendances suivantes (telles que définies dans `Cargo.toml`) :
 
 -   `clap` (version `4.5.41`) : Pour l'analyse des arguments de la ligne de commande.
+-   `indicatif` (version `0.18.0`) : Pour afficher une barre de progression.
 -   `encoding_rs` (version `0.8.35`) : Pour la gestion des encodages de texte.
 
 ## Exemples

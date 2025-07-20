@@ -1,8 +1,9 @@
 use clap::Parser;
 use std::fs;
 use std::io::{self, Read, Write};
-use std::time::Instant;
+use std::time::{Duration, Instant};
 use encoding_rs;
+use indicatif::{ProgressBar, ProgressStyle};
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -45,9 +46,29 @@ fn main() -> io::Result<()> {
 
     let start_time = Instant::now();
 
+    let pb = ProgressBar::new_spinner();
+    pb.enable_steady_tick(Duration::from_millis(120));
+    pb.set_style(
+        ProgressStyle::default_spinner()
+            .tick_strings(&[
+                "▹▹▹▹▹",
+                "▸▹▹▹▹",
+                "▹▸▹▹▹",
+                "▹▹▸▹▹",
+                "▹▹▹▸▹",
+                "▹▹▹▹▸",
+                "▪▪▪▪▪",
+            ])
+            .template("{spinner:.blue} {msg}")
+            .unwrap(),
+    );
+    pb.set_message("Reading file...");
+
     let mut file = fs::File::open(&args.file)?;
     let mut buffer = Vec::new();
     file.read_to_end(&mut buffer)?;
+
+    pb.set_message("Decoding file...");
 
     let (encoding, had_bom) = if let Some(enc_label) = &args.encoding {
         // User specified encoding
@@ -80,8 +101,10 @@ fn main() -> io::Result<()> {
 
     let contents = cow.into_owned();
 
+    pb.set_message("Replacing content...");
     let (replaced_contents, occurrences) = perform_replacement(&contents, &args.old, &args.new);
 
+    pb.set_message("Writing to file...");
     let output_path = if let Some(out_file) = &args.output {
         out_file
     } else {
@@ -90,6 +113,8 @@ fn main() -> io::Result<()> {
 
     let mut file = fs::File::create(output_path)?;
     file.write_all(replaced_contents.as_bytes())?;
+
+    pb.finish_and_clear();
 
     let elapsed_time = start_time.elapsed();
 
