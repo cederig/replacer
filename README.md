@@ -15,7 +15,7 @@ Pour une utilisation en production, il est recommandé de compiler le programme 
 Exemple d'utilisation du binaire compilé (depuis le répertoire racine du projet):
 
 ```bash
-./target/release/replacer -f <chemin_du_fichier> -o <ancienne_chaine> -n <nouvelle_chaine> [options]
+./replacer -f <chemin_du_fichier> -o <ancienne_chaine> -n <nouvelle_chaine> [options]
 ```
 
 ### Options
