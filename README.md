@@ -39,19 +39,19 @@ Ce projet utilise les dépendances suivantes (telles que définies dans `Cargo.t
 1.  **Remplacer "Bonjour" par "Salut" dans `exemple.txt` (détection automatique de l'encodage) et afficher les statistiques:**
 
     ```bash
-    ./target/release/replacer -f exemple.txt -o "Bonjour" -n "Salut" --stat
+    ./replacer -f exemple.txt -o "Bonjour" -n "Salut" --stat
     ```
 
 2.  **Remplacer toutes les occurrences de "erreur" par "succès" dans `log.txt` (encodé en Latin-1) et écrire le résultat dans `log_modifie.txt`:**
 
     ```bash
-    ./target/release/replacer -f log.txt -o "erreur" -n "succès" -w log_modifie.txt -e Latin-1
+    ./replacer -f log.txt -o "erreur" -n "succès" -w log_modifie.txt -e Latin-1
     ```
 
 3.  **Remplacer "pomme" par "orange" dans `fruits.txt` (détection automatique de l'encodage), écrire le résultat dans `nouveaux_fruits.txt` et afficher les statistiques:**
 
     ```bash
-    ./target/release/replacer -f fruits.txt -o "pomme" -n "orange" -w nouveaux_fruits.txt --stat
+    ./replacer -f fruits.txt -o "pomme" -n "orange" -w nouveaux_fruits.txt --stat
     ```
 
 ## Performance
