@@ -29,10 +29,10 @@ Exemple d'utilisation du binaire compilé (depuis le répertoire racine du proje
 
 ## Dépendances
 
-Ce projet utilise les bibliothèques `clap` pour l'analyse des arguments de la ligne de commande et `encoding_rs` pour la gestion des encodages de caractères.
+Ce projet utilise les dépendances suivantes (telles que définies dans `Cargo.toml`) :
 
-*   `clap = { version = "4.0", features = ["derive"] }`
-*   `encoding_rs = "0.8"`
+-   `clap` (version `4.5.41`) : Pour l'analyse des arguments de la ligne de commande.
+-   `encoding_rs` (version `0.8.35`) : Pour la gestion des encodages de texte.
 
 ## Exemples
 
