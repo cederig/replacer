@@ -1,106 +1,125 @@
 # Replacer
 
-`replacer` est un utilitaire en ligne de commande extrêmement rapide écrit en Rust qui permet de remplacer toutes les occurrences d'une chaîne de caractères donnée par une autre chaîne de caractères dans un fichier spécifié.
+`replacer` is an extremely fast command-line utility written in Rust that allows you to replace all occurrences of a given string with another string in a specified file.
 
-## Utilisation
+## Dependencies
 
-Pour le développement et les tests rapides, vous pouvez utiliser `cargo run`:
+This project uses the following dependencies (as defined in `Cargo.toml`):
+
+-   `clap` (version `4.5.41`): For command-line argument parsing.
+-   `indicatif` (version `0.18.0`): For displaying a progress bar.
+-   `encoding_rs` (version `0.8.35`): For handling text encodings.
+
+## Installation
+
+### Prerequisites
+
+Make sure you have Rust and Cargo installed on your system. You can install them by following the instructions on the official Rust website: [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install)
+
+### Compiling for Linux (from Linux/macOS)
+1.  Clone this repository:
+    ```sh
+    git clone https://github.com/cederig/replacer.git
+    cd replacer
+    ```
+2.  Compile the project:
+    ```sh
+    cargo build --release
+    ```
+    The executable will be located in `target/release/replacer`.
+
+### Compiling for Windows (from Linux/macOS)
+
+To compile this project for Windows from another operating system (like Linux or macOS), you can use cross-compilation. You will need the Rust target for Windows.
+
+1.  Add the Windows target to your Rust installation:
+    ```sh
+    rustup target add x86_64-pc-windows-gnu
+    ```
+
+2.  Compile the project for the Windows target:
+    ```sh
+    cargo build --release --target=x86_64-pc-windows-gnu
+    ```
+
+The Windows executable will be located in `target/x86_64-pc-windows-gnu/release/replacer.exe`.
+
+### Compiling for macOS (from Linux/macOS)
+
+To compile this project for macOS from another operating system (like Linux or macOS), you can use cross-compilation. You will need the Rust target for macOS.
+
+1.  Add the macOS target to your Rust installation (choose the correct architecture):
+    *   For Intel Macs (x86_64):
+        ```sh
+        rustup target add x86_64-apple-darwin
+        ```
+    *   For Apple Silicon Macs (aarch64):
+        ```sh
+        rustup target add aarch64-apple-darwin
+        ```
+
+2.  Compile the project for the macOS target (choose the correct architecture):
+    *   For Intel Macs:
+        ```sh
+        cargo build --release --target=x86_64-apple-darwin
+        ```
+    *   For Apple Silicon Macs:
+        ```sh
+        cargo build --release --target=aarch64-apple-darwin
+        ```
+
+The macOS executable will be located in `target/<your_mac_target>/release/replacer` (e.g., `target/x86_64-apple-darwin/release/replacer`).
+
+## Usage
+
+The basic syntax is as follows:
 
 ```bash
-cargo run -- -f <chemin_du_fichier> -o <ancienne_chaine> -n <nouvelle_chaine> [options]
-```
-
-Pour une utilisation en production, il est recommandé de compiler le programme et d'exécuter le binaire directement. Après avoir compilé avec `cargo build --release`, l'exécutable se trouvera dans `target/release/replacer` (ou `target/release/replacer.exe` sur Windows).
-
-Exemple d'utilisation du binaire compilé (depuis le répertoire racine du projet):
-
-```bash
-./replacer -f <chemin_du_fichier> -o <ancienne_chaine> -n <nouvelle_chaine> [options]
+./replacer [OPTIONS] --file <FILE> --old <OLD> --new <NEW>
 ```
 
 ### Options
 
-*   `-f`, `--file <chemin_du_fichier>`: Spécifie le chemin d'accès au fichier à lire. (Obligatoire)
-*   `-o`, `--old <ancienne_chaine>`: La chaîne de caractères à rechercher et à remplacer. (Obligatoire)
-*   `-n`, `--new <nouvelle_chaine>`: La chaîne de caractères par laquelle remplacer l'ancienne chaîne. (Obligatoire)
-*   `--stat`: Affiche des statistiques sur le remplacement, y compris le nombre de remplacements effectués et le temps de traitement. (Optionnel)
-*   `-w`, `--output <chemin_du_fichier_sortie>`: Spécifie un fichier de sortie. Si cette option est utilisée, le fichier source ne sera pas modifié et le contenu remplacé sera écrit dans ce nouveau fichier. (Optionnel)
-*   `-e`, `--encoding <encodage>`: Spécifie l'encodage du fichier d'entrée (par exemple, `UTF-8`, `Latin-1`, `Shift_JIS`). Si cette option n'est pas spécifiée, le programme tentera de détecter automatiquement l'encodage (priorité à la BOM, puis UTF-8, puis Windows-1252 en dernier recours). (Optionnel)
+*   `-f`, `--file <file_path>`: Specifies the path to the file to read. (Required)
+*   `-o`, `--old <old_string>`: The string to search for and replace. (Required)
+*   `-n`, `--new <new_string>`: The string to replace the old string with. (Required)
+*   `--stat`: Displays statistics about the replacement, including the number of replacements made and processing time. (Optional)
+*   `-w`, `--output <output_file_path>`: Specifies an output file. If this option is used, the source file will not be modified, and the replaced content will be written to this new file. (Optional)
+*   `-e`, `--encoding <encoding>`: Specifies the encoding of the input file (e.g., `UTF-8`, `Latin-1`, `Shift_JIS`). If this option is not specified, the program will attempt to automatically detect the encoding (priority to BOM, then UTF-8, then Windows-1252 as a last resort). (Optional)
 
-## Dépendances
 
-Ce projet utilise les dépendances suivantes (telles que définies dans `Cargo.toml`) :
 
--   `clap` (version `4.5.41`) : Pour l'analyse des arguments de la ligne de commande.
--   `indicatif` (version `0.18.0`) : Pour afficher une barre de progression.
--   `encoding_rs` (version `0.8.35`) : Pour la gestion des encodages de texte.
+### Examples
 
-## Exemples
-
-1.  **Remplacer "Bonjour" par "Salut" dans `exemple.txt` (détection automatique de l'encodage) et afficher les statistiques:**
+1.  Replace "Bonjour" with "Salut" in `example.txt` (automatic encoding detection) and display statistics:
 
     ```bash
-    ./replacer -f exemple.txt -o "Bonjour" -n "Salut" --stat
+    ./replacer -f example.txt -o "Bonjour" -n "Salut" --stat
     ```
 
-2.  **Remplacer toutes les occurrences de "erreur" par "succès" dans `log.txt` (encodé en Latin-1) et écrire le résultat dans `log_modifie.txt`:**
+2.  Replace all occurrences of "erreur" with "succès" in `log.txt` (encoded in Latin-1) and write the result to `log_modified.txt`:
 
     ```bash
-    ./replacer -f log.txt -o "erreur" -n "succès" -w log_modifie.txt -e Latin-1
+    ./replacer -f log.txt -o "erreur" -n "succès" -w log_modified.txt -e Latin-1
     ```
 
-3.  **Remplacer "pomme" par "orange" dans `fruits.txt` (détection automatique de l'encodage), écrire le résultat dans `nouveaux_fruits.txt` et afficher les statistiques:**
+3.  Replace "pomme" with "orange" in `fruits.txt` (automatic encoding detection), write the result to `new_fruits.txt` and display statistics:
 
     ```bash
-    ./replacer -f fruits.txt -o "pomme" -n "orange" -w nouveaux_fruits.txt --stat
+    ./replacer -f fruits.txt -o "pomme" -n "orange" -w new_fruits.txt --stat
     ```
 
 ## Performance
 
-`replacer` est conçu pour être extrêmement rapide. Grâce à l'efficacité de Rust, il est capable de traiter de grands fichiers et d'effectuer un nombre important de remplacements en un temps record. Par exemple, il peut remplacer 50 000 occurrences d'une chaîne de caractères en moins de 50 millisecondes sur des configurations matérielles typiques.
-
-## Compilation et Exécution
-
-Pour compiler et exécuter le projet, assurez-vous d'avoir Rust et Cargo installés. Ensuite, naviguez jusqu'au répertoire du projet et utilisez la commande `cargo run`:
-
-```bash
-cd replacer
-cargo run -- -f <chemin_du_fichier> -o <ancienne_chaine> -n <nouvelle_chaine> [options]
-```
-
-Pour compiler une version optimisée et obtenir un exécutable autonome pour votre système d'exploitation actuel, utilisez:
-
-```bash
-cargo build --release
-```
-
-L'exécutable se trouvera dans `target/release/replacer` (ou `target/release/replacer.exe` sur Windows).
-
-### Compilation pour Windows (depuis Linux/macOS)
-
-Si vous êtes sur Linux ou macOS et que vous souhaitez compiler `replacer` pour Windows, vous devez d'abord ajouter la cible de compilation Windows:
-
-```bash
-rustup target add x86_64-pc-windows-gnu
-# ou pour MSVC (si vous avez Visual Studio installé sur Windows)
-# rustup target add x86_64-pc-windows-msvc
-```
-
-Ensuite, vous pouvez compiler le projet en spécifiant la cible:
-
-```bash
-cargo build --release --target x86_64-pc-windows-gnu
-```
-
-L'exécutable se trouvera dans `target/x86_64-pc-windows-gnu/release/replacer.exe`.
+`replacer` is designed to be extremely fast. Thanks to Rust's efficiency, it is capable of processing large files and performing a significant number of replacements in record time. For example, it can replace 50,000 occurrences of a string in less than 50 milliseconds on typical hardware configurations.
 
 ## Tests
 
-Ce projet inclut des tests unitaires pour garantir la fiabilité de la logique de remplacement. Pour exécuter ces tests, utilisez la commande suivante à la racine du projet :
+This project includes unit tests; to run them, use the following command at the root of the project:
 
 ```bash
 cargo test
 ```
 
-Cette commande compile le programme en mode test et exécute toutes les fonctions de test.
+This command compiles the program in test mode and runs all test functions.
 
