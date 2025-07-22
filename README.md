@@ -89,7 +89,7 @@ The basic syntax is as follows:
 
 
 
-### Examples
+## Examples
 
 1.  Replace "Bonjour" with "Salut" in `example.txt` (automatic encoding detection) and display statistics:
 
