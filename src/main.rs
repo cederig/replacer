@@ -111,8 +111,24 @@ fn main() -> io::Result<()> {
         &args.file
     };
 
+    let (encoded_output, _, had_encoding_errors) = encoding.encode(&replaced_contents);
+    if had_encoding_errors {
+        eprintln!("Warning: Some characters in the replacement string could not be represented in the target encoding ('{}'). They may have been replaced by fallback characters.", encoding.name());
+    }
+
     let mut file = fs::File::create(output_path)?;
-    file.write_all(replaced_contents.as_bytes())?;
+
+    // If the original file had a BOM, write a BOM to the output file.
+    if had_bom {
+        match encoding.name() {
+            "UTF-8" => file.write_all(&[0xEF, 0xBB, 0xBF])?,
+            "UTF-16LE" => file.write_all(&[0xFF, 0xFE])?,
+            "UTF-16BE" => file.write_all(&[0xFE, 0xFF])?,
+            _ => {} // Not all encodings have a BOM
+        }
+    }
+
+    file.write_all(&encoded_output)?;
 
     pb.finish_and_clear();
 
