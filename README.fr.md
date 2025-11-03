@@ -78,7 +78,7 @@ L'exécutable pour macOS se trouvera dans `target/<votre_cible_mac>/release/repl
 
 La syntaxe de base est la suivante :
 
-```bash
+```sh
 replacer [OPTIONS] --file <FILE> --old <OLD> --new <NEW>
 ```
 
@@ -112,7 +112,7 @@ replacer [OPTIONS] --file <FILE> --old <OLD> --new <NEW>
 
 Ce projet inclut des tests unitaires; pour les exécuter, utilisez la commande suivante à la racine du projet :
 
-```bash
+```sh
 cargo test
 ```
 

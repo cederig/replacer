@@ -78,7 +78,7 @@ The macOS executable will be located in `target/<your_mac_target>/release/replac
 
 The basic syntax is as follows:
 
-```bash
+```sh
 ./replacer [OPTIONS] --file <FILE> --old <OLD> --new <NEW>
 ```
 
