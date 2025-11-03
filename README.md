@@ -20,7 +20,7 @@ This project uses the following dependencies (as defined in `Cargo.toml`):
 
 Make sure you have Rust and Cargo installed on your system. You can install them by following the instructions on the official Rust website: [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install)
 
-### Compiling for Linux (from Linux/macOS)
+### Compiling for Linux (from Linux)
 1.  Clone this repository:
     ```sh
     git clone https://github.com/cederig/replacer.git
@@ -34,7 +34,7 @@ Make sure you have Rust and Cargo installed on your system. You can install them
 
 ### Compiling for Windows (from Linux/macOS)
 
-To compile this project for Windows from another operating system (like Linux or macOS), you can use cross-compilation. You will need the Rust target for Windows.
+To cross-compile this project for Windows from another operating system (like Linux or macOS), you will need the Rust target for Windows.
 
 1.  Add the Windows target to your Rust installation:
     ```sh
@@ -50,7 +50,7 @@ The Windows executable will be located in `target/x86_64-pc-windows-gnu/release/
 
 ### Compiling for macOS (from Linux/macOS)
 
-To compile this project for macOS from another operating system (like Linux or macOS), you can use cross-compilation. You will need the Rust target for macOS.
+To cross-compile this project for macOS from another operating system (like Linux or macOS), you will need the Rust target for macOS.
 
 1.  Add the macOS target to your Rust installation (choose the correct architecture):
     *   For Intel Macs (x86_64):
@@ -72,7 +72,7 @@ To compile this project for macOS from another operating system (like Linux or m
         cargo build --release --target=aarch64-apple-darwin
         ```
 
-The macOS executable will be located in `target/<your_mac_target>/release/replacer` (e.g., `target/x86_64-apple-darwin/release/replacer`).
+The macOS executable will be located in `target/<your_mac_target>/release/replacer`.
 
 ## Usage
 
