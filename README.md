@@ -79,33 +79,33 @@ The macOS executable will be located in `target/<your_mac_target>/release/replac
 The basic syntax is as follows:
 
 ```sh
-./replacer [OPTIONS] --file <FILE> --old <OLD> --new <NEW>
+./replacer [OPTIONS] --file <FILE> --pattern <PATTERN> --replacement <REPLACEMENT>
 ```
 
 ### Options
 
 -   `-f`, `--file <file_path>`: Specifies the path to the file to read. (Required)
--   `-o`, `--old <old_string>`: The string to search for and replace. (Required)
--   `-n`, `--new <new_string>`: The string to replace the old string with. (Required)
+-   `-p`, `--pattern <pattern_string>`: The string to search for and replace. (Required)
+-   `-r`, `--replacement <replacement_string>`: The string to replace the pattern string with. (Required)
 -   `--stat`: Displays statistics about the replacement, including the number of replacements made and processing time. (Optional)
--   `-w`, `--output <output_file_path>`: Specifies an output file. If this option is used, the source file will not be modified, and the replaced content will be written to this new file. (Optional)
+-   `-w`, `--output <output_file_path>`: Specifies an output file. If this option is used, the source file will not be modified, and the replaced content will be written to this replacement file. (Optional)
 -   `-e`, `--encoding <encoding>`: Specifies the encoding of the input file (e.g., `UTF-8`, `Latin-1`, `Shift_JIS`). If this option is not specified, the program will attempt to automatically detect the encoding (priority to BOM, then UTF-8, then Windows-1252 as a last resort). (Optional)
 
 ## Examples
 
 -   Replace "Bonjour" with "Salut" in `example.txt` (automatic encoding detection) and display statistics:
     ```sh
-    ./replacer -f example.txt -o "Bonjour" -n "Salut" --stat
+    ./replacer -f example.txt -p "Bonjour" -r "Salut" --stat
     ```
 
 -   Replace all occurrences of "erreur" with "succès" in `log.txt` (encoded in Latin-1) and write the result to `log_modified.txt`:
     ```sh
-    ./replacer -f log.txt -o "erreur" -n "succès" -w log_modified.txt -e Latin-1
+    ./replacer -f log.txt -p "erreur" -r "succès" -w log_modified.txt -e Latin-1
     ```
 
--   Replace "pomme" with "orange" in `fruits.txt` (automatic encoding detection), write the result to `new_fruits.txt` and display statistics:
+-   Replace "pomme" with "orange" in `fruits.txt` (automatic encoding detection), write the result to `replacement_fruits.txt` and display statistics:
     ```sh
-    ./replacer -f fruits.txt -o "pomme" -n "orange" -w new_fruits.txt --stat
+    ./replacer -f fruits.txt -p "pomme" -r "orange" -w replacement_fruits.txt --stat
     ```
 
 ## Tests
