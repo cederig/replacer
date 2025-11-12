@@ -6,7 +6,6 @@
 
 `replacer` est conçu pour être extrêmement rapide avec de multiples optimisations de performance :
 
-- **40-50% plus rapide que les implémentations naïves** grâce au traitement en une seule passe
 - **Traitement parallèle** pour les gros fichiers (>1Mo par défaut) utilisant Rayon
 - **Optimisation ASCII** pour le contenu ASCII uniquement (2-3x plus rapide)
 - **Mise en cache intelligente** pour les opérations répétées
@@ -187,32 +186,3 @@ cargo bench
 # Exécuter les tests avec sortie détaillée
 cargo test -- --nocapture
 ```
-
-## Architecture
-
-Le projet utilise une architecture modulaire :
-
-```
-src/
-├── lib.rs              # API publique et interface principale
-├── main.rs             # Point d'entrée CLI
-├── core/               # Algorithmes de base
-│   ├── mod.rs          # Exportations des modules
-│   ├── sequential.rs   # Traitement séquentiel optimisé
-│   ├── parallel.rs     # Algorithmes de traitement parallèle
-│   ├── specialized.rs  # Optimisations spécialisées (ASCII, cache, multi-patterns)
-│   └── config.rs       # Gestion de la configuration
-└── io/                 # Opérations d'E/S
-    ├── mod.rs          # Exportations des modules
-    ├── buffered.rs     # Opérations de fichiers bufferisées
-    └── streaming.rs    # Streaming pour les très gros fichiers
-```
-
-## Contribuer
-
-Les contributions sont les bienvenues ! N'hésitez pas à soumettre une Pull Request. Pour les changements majeurs, veuillez ouvrir une issue d'abord pour discuter de ce que vous aimeriez modifier.
-
-## Licence
-
-Ce projet est sous licence MIT - voir le fichier LICENSE pour les détails.
-

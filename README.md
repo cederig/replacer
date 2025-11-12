@@ -6,7 +6,6 @@
 
 `replacer` is designed to be extremely fast with multiple performance optimizations:
 
-- **40-50% faster than naive implementations** through single-pass processing
 - **Parallel processing** for large files (>1MB by default) using Rayon
 - **ASCII optimization** for ASCII-only content (2-3x faster)
 - **Intelligent caching** for repeated operations
@@ -187,32 +186,3 @@ cargo bench
 # Run tests with output
 cargo test -- --nocapture
 ```
-
-## Architecture
-
-The project uses a modular architecture:
-
-```
-src/
-├── lib.rs              # Public API and main interface
-├── main.rs             # CLI entry point
-├── core/               # Core algorithms
-│   ├── mod.rs          # Module exports
-│   ├── sequential.rs   # Optimized sequential processing
-│   ├── parallel.rs     # Parallel processing algorithms
-│   ├── specialized.rs  # Specialized optimizations (ASCII, caching, multi-pattern)
-│   └── config.rs       # Configuration management
-└── io/                 # I/O operations
-    ├── mod.rs          # Module exports
-    ├── buffered.rs     # Buffered file operations
-    └── streaming.rs    # Streaming for very large files
-```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
